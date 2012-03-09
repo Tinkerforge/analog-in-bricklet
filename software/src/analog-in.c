@@ -172,8 +172,8 @@ void update_resistor(uint16_t value) {
 		if(BC->current_resistor < 4) {
 			BC->new_resistor = BC->current_resistor + 1;
 		}
-	} else if(BC->current_resistor == 1 && value < THRESHOLD_VALUE_1) {
-		BC->new_resistor = 0;
+	/*} else if(BC->current_resistor == 1 && value < THRESHOLD_VALUE_1) {
+		BC->new_resistor = 0;*/
 	} else if(BC->current_resistor == 2 && value < THRESHOLD_VALUE_2) {
 		BC->new_resistor = 1;
 	} else if(BC->current_resistor == 3 && value < THRESHOLD_VALUE_3) {
