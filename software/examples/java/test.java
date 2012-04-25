@@ -16,7 +16,7 @@ public class ExampleSimple {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		BrickletAmbientLight al = new BrickletAmbientLight(UID);
 		try {
 			ipcon.addDevice(al);
@@ -24,7 +24,7 @@ public class ExampleSimple {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		int voltage = 0;
 		try {
 			voltage = al.getVoltage();
@@ -32,9 +32,8 @@ public class ExampleSimple {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		System.out.println("Voltage: " + voltage + " Lux");
-		
 		ipcon.joinThread();
 	}
 }
