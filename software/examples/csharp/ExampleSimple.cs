@@ -14,8 +14,7 @@ class Example
 		// Don't use device before it is added to a connection
 
 		// Get current voltage (unit is mV)
-		ushort voltage;
-		ai.GetVoltage(out voltage);
+		ushort voltage = ai.GetVoltage();
 
 		System.Console.WriteLine("Voltage: " + voltage/1000.0 + " V");
 
