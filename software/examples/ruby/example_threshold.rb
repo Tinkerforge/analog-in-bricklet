@@ -19,7 +19,7 @@ ipcon.add_device ai # Add device to IP connection
 ai.set_debounce_period 10000
 
 # Register threshold reached callback for voltage smaller than 5V
-ai.register_callback BrickletAnalogIn::CALLBACK_VOLTAGE_REACHED, do |voltage|
+ai.register_callback(BrickletAnalogIn::CALLBACK_VOLTAGE_REACHED) do |voltage|
   puts "Voltage dropped below 5V: #{voltage/1000.0}"
 end
 

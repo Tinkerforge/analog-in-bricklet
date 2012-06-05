@@ -21,7 +21,7 @@ ipcon.add_device ai # Add device to IP connection
 ai.set_voltage_callback_period 1000
 
 # Register illuminance callback (parameter has unit mV)
-ai.register_callback BrickletAnalogIn::CALLBACK_VOLTAGE, do |voltage|
+ai.register_callback(BrickletAnalogIn::CALLBACK_VOLTAGE) do |voltage|
   puts "Voltage: #{voltage/1000.0} V"
 end
 
