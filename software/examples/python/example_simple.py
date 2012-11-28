@@ -9,11 +9,11 @@ from tinkerforge.ip_connection import IPConnection
 from tinkerforge.bricklet_analog_in import AnalogIn
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
+    ipcon = IPConnection() # Create IP connection
+    ai = AnalogIn(UID, ipcon) # Create device object
 
-    ai = AnalogIn(UID) # Create device object
-    ipcon.add_device(ai) # Add device to IP connection
-    # Don't use device before it is added to a connection
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
 
     # Get current voltage (unit is mV)
     voltage = ai.get_voltage()
@@ -21,4 +21,3 @@ if __name__ == "__main__":
     print('Voltage: ' + str(voltage/1000.0) + ' V')
 
     raw_input('Press key to exit\n') # Use input() in Python 3
-    ipcon.destroy()

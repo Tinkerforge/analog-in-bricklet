@@ -13,11 +13,11 @@ def cb_voltage(voltage):
     print('Voltage: ' + str(voltage/1000.0) + ' V')
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
+    ipcon = IPConnection() # Create IP connection
+    ai = AnalogIn(UID, ipcon) # Create device object
 
-    ai = AnalogIn(UID) # Create device object
-    ipcon.add_device(ai) # Add device to IP connection
-    # Don't use device before it is added to a connection
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
 
     # Set Period for voltage callback to 1s (1000ms)
     # Note: The callback is only called every second if the 
@@ -28,4 +28,3 @@ if __name__ == "__main__":
     ai.register_callback(ai.CALLBACK_VOLTAGE, cb_voltage)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
-    ipcon.destroy()
