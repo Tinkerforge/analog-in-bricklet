@@ -16,11 +16,11 @@ function cb_reached($voltage)
     echo "Voltage dropped below 5V: " . $voltage / 1000.0 . "\n";
 }
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$ai = new BrickletAnalogIn($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$ai = new BrickletAnalogIn($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($ai); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 $ai->setDebouncePeriod(10000);
