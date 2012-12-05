@@ -8,18 +8,18 @@ class Example
 
 	static void Main() 
 	{
-		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
-		BrickletAnalogIn ai = new BrickletAnalogIn(UID); // Create device object
-		ipcon.AddDevice(ai); // Add device to IP connection
-		// Don't use device before it is added to a connection
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickletAnalogIn ai = new BrickletAnalogIn(UID, ipcon); // Create device object
+
+		ipcon.Connect(HOST, PORT); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Get current voltage (unit is mV)
-		ushort voltage = ai.GetVoltage();
+		int voltage = ai.GetVoltage();
 
 		System.Console.WriteLine("Voltage: " + voltage/1000.0 + " V");
 
 		System.Console.WriteLine("Press key to exit");
 		System.Console.ReadKey();
-		ipcon.Destroy();
 	}
 }
