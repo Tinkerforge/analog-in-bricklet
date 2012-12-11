@@ -37,7 +37,7 @@ int main() {
 	// Register threshold reached callback to function cb_reached
 	analog_in_register_callback(&ai, 
 	                            ANALOG_IN_CALLBACK_VOLTAGE_REACHED,
-	                            cb_reached,
+	                            (void *)cb_reached,
 	                            NULL);
 
 	// Configure threshold for "smaller than 5V" (unit is mV)
