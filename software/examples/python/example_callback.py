@@ -28,3 +28,4 @@ if __name__ == "__main__":
     ai.register_callback(ai.CALLBACK_VOLTAGE, cb_voltage)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()
