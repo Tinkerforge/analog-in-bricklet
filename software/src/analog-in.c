@@ -56,7 +56,22 @@ const SimpleUnitProperty sup[] = {
 const uint8_t smp_length = sizeof(smp);
 
 void invocation(const ComType com, const uint8_t *data) {
-	simple_invocation(com, data);
+	switch(((SimpleStandardMessage*)data)->header.fid) {
+		case FID_SET_RANGE: {
+			set_range(com, (SetRange*)data);
+			return;
+		}
+
+		case FID_GET_RANGE: {
+			get_range(com, (GetRange*)data);
+			return;
+		}
+
+		default: {
+			simple_invocation(com, data);
+			break;
+		}
+	}
 
 	if(((SimpleStandardMessage*)data)->header.fid > FID_LAST) {
 		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_NOT_SUPPORTED, com);
@@ -66,6 +81,8 @@ void invocation(const ComType com, const uint8_t *data) {
 void constructor(void) {
 	adc_channel_enable(BS->adc_channel);
 	BC->value_avg = 0;
+
+	BC->range = 0; // auto
 
     PIN_RESISTOR_1.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_1, 1);
@@ -173,6 +190,10 @@ void set_new_resistor(void) {
 }
 
 void update_resistor(const uint16_t value) {
+	if(BC->range != 0) {
+		return;
+	}
+
 	if(value > 3800) {
 		if(BC->current_resistor < 4) {
 			BC->new_resistor = BC->current_resistor + 1;
@@ -232,6 +253,31 @@ int32_t voltage_from_analog_value(const int32_t value) {
 	}
 
 	return MIN(45000, BC->value_avg);
+}
+
+void set_range(const ComType com, const SetRange *data) {
+	if(data->range > 4) {
+		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
+	BC->range = data->range;
+
+	if(data->range != 0) {
+		BC->new_resistor = data->range;
+	}
+
+	BA->com_return_setter(com, data);
+}
+
+void get_range(const ComType com, const GetRange *data) {
+	GetRangeReturn grr;
+
+	grr.header        = data->header;
+	grr.header.length = sizeof(GetRangeReturn);
+	grr.range         = BC->range;
+
+	BA->send_blocking_with_timeout(&grr, sizeof(GetRangeReturn), com);
 }
 
 void tick(const uint8_t tick_type) {

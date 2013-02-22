@@ -31,7 +31,7 @@
 
 #define BRICKLET_FIRMWARE_VERSION_MAJOR 2
 #define BRICKLET_FIRMWARE_VERSION_MINOR 0
-#define BRICKLET_FIRMWARE_VERSION_REVISION 0
+#define BRICKLET_FIRMWARE_VERSION_REVISION 1
 
 #define BRICKLET_HARDWARE_VERSION_MAJOR 1
 #define BRICKLET_HARDWARE_VERSION_MINOR 0
@@ -106,6 +106,8 @@ typedef struct {
 	uint8_t current_resistor;
 	uint8_t new_resistor;
 	uint8_t new_resistor_set;
+
+	uint8_t range; // auto = 0, resistor = range otherwise
 
 	uint32_t tick;
 } BrickContext;

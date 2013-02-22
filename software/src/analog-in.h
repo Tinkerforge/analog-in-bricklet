@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 #include "bricklib/com/com.h"
+#include "bricklib/com/com_common.h"
 
 #define FID_GET_VOLTAGE 1
 #define FID_GET_ANALOG_VALUE 2
@@ -41,11 +42,29 @@
 #define FID_ANALOG_VALUE 14
 #define FID_VOLTAGE_REACHED 15
 #define FID_ANALOG_VALUE_REACHED 16
+#define FID_SET_RANGE 17
+#define FID_GET_RANGE 18
 
-#define FID_LAST 16
+#define FID_LAST 18
+
+typedef struct {
+	MessageHeader header;
+	uint8_t range;
+} __attribute__((__packed__)) SetRange;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) GetRange;
+
+typedef struct {
+	MessageHeader header;
+	uint8_t range;
+} __attribute__((__packed__)) GetRangeReturn;
 
 int32_t analog_value_from_mc(const int32_t value);
 int32_t voltage_from_analog_value(const int32_t value);
+void set_range(const ComType com, const SetRange *data);
+void get_range(const ComType com, const GetRange *data);
 
 void invocation(const ComType com, const uint8_t *data);
 void constructor(void);
