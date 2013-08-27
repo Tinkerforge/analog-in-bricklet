@@ -81,6 +81,8 @@ void invocation(const ComType com, const uint8_t *data) {
 void constructor(void) {
 	adc_channel_enable(BS->adc_channel);
 	BC->value_avg = 0;
+	BC->value_avg_sum = 0;
+	BC->value_avg_tick = 0;
 
 	BC->range = 0; // auto
 
@@ -211,7 +213,7 @@ void update_resistor(const uint16_t value) {
 
 int32_t analog_value_from_mc(const int32_t value) {
 	if(BC->new_resistor_set > 0) {
-		return BC->value[0];
+		return BC->value[1];
 	}
 	uint16_t analog_value = BA->adc_channel_get_data(BS->adc_channel);
 	update_resistor(analog_value);
@@ -221,7 +223,7 @@ int32_t analog_value_from_mc(const int32_t value) {
 int32_t voltage_from_analog_value(const int32_t value) {
 	if(BC->new_resistor_set > 0) {
 		BC->new_resistor_set--;
-		return BC->value[1];
+		return BC->value[0];
 	}
 
 	int32_t voltage = 0;
@@ -247,10 +249,12 @@ int32_t voltage_from_analog_value(const int32_t value) {
 
 	BC->value_avg_sum += voltage;
 
-	if(BC->tick % VOLTAGE_AVERAGE == 0) {
+	if(BC->value_avg_tick % VOLTAGE_AVERAGE == 0) {
 		BC->value_avg = BC->value_avg_sum/VOLTAGE_AVERAGE;
 		BC->value_avg_sum = 0;
 	}
+
+	++BC->value_avg_tick;
 
 	return MIN(45000, BC->value_avg);
 }
