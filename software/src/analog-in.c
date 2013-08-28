@@ -84,7 +84,7 @@ void constructor(void) {
 	BC->value_avg_sum = 0;
 	BC->value_avg_tick = 0;
 
-	BC->range = 0; // auto
+	BC->range = RANGE_AUTOMATIC;
 
     PIN_RESISTOR_1.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_1, 1);
@@ -192,7 +192,7 @@ void set_new_resistor(void) {
 }
 
 void update_resistor(const uint16_t value) {
-	if(BC->range != 0) {
+	if(BC->range != RANGE_AUTOMATIC) {
 		return;
 	}
 
@@ -260,15 +260,43 @@ int32_t voltage_from_analog_value(const int32_t value) {
 }
 
 void set_range(const ComType com, const SetRange *data) {
-	if(data->range > 4) {
+	if(data->range > RANGE_UP_TO_3V) {
 		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 		return;
 	}
 
-	BC->range = data->range;
+	if (BC->range != data->range) {
+		switch(data->range) {
+		default:
+		case RANGE_AUTOMATIC:
+			if (BC->current_resistor == 0) {
+				// leave 3.3V range
+				BC->new_resistor = 1;
+			}
+			break;
 
-	if(data->range != 0) {
-		BC->new_resistor = data->range;
+		case RANGE_UP_TO_3V:
+			BC->new_resistor = 0;
+			break;
+
+		case RANGE_UP_TO_6V:
+			BC->new_resistor = 1;
+			break;
+
+		case RANGE_UP_TO_10V:
+			BC->new_resistor = 2;
+			break;
+
+		case RANGE_UP_TO_36V:
+			BC->new_resistor = 3;
+			break;
+
+		case RANGE_UP_TO_45V:
+			BC->new_resistor = 4;
+			break;
+		}
+
+		BC->range = data->range;
 	}
 
 	BA->com_return_setter(com, data);

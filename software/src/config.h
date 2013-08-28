@@ -56,6 +56,13 @@
 #define MAX_VOLTAGE_3    36300
 #define MAX_VOLTAGE_4    46071
 
+#define RANGE_AUTOMATIC  0
+#define RANGE_UP_TO_6V   1
+#define RANGE_UP_TO_10V  2
+#define RANGE_UP_TO_36V  3
+#define RANGE_UP_TO_45V  4
+#define RANGE_UP_TO_3V   5 // is 5 because it was added later on
+
 #define VALUE_TO_VOLTAGE_0(x) ((x)*MAX_VOLTAGE_0/MAX_ADC_VALUE)
 #define VALUE_TO_VOLTAGE_1(x) ((x)*MAX_VOLTAGE_1/MAX_ADC_VALUE)
 #define VALUE_TO_VOLTAGE_2(x) ((x)*MAX_VOLTAGE_2/MAX_ADC_VALUE)
@@ -108,7 +115,7 @@ typedef struct {
 	uint8_t new_resistor;
 	uint8_t new_resistor_set;
 
-	uint8_t range; // auto = 0, resistor = range otherwise
+	uint8_t range;
 
 	uint32_t tick;
 } BrickContext;
