@@ -67,6 +67,16 @@ void invocation(const ComType com, const uint8_t *data) {
 			return;
 		}
 
+		case FID_SET_AVERAGING: {
+			set_averaging(com, (SetAveraging*)data);
+			return;
+		}
+
+		case FID_GET_AVERAGING: {
+			get_averaging(com, (GetAveraging*)data);
+			return;
+		}
+
 		default: {
 			simple_invocation(com, data);
 			break;
@@ -85,6 +95,8 @@ void constructor(void) {
 	BC->value_avg_tick = 0;
 
 	BC->range = RANGE_AUTOMATIC;
+
+	BC->num_average = VOLTAGE_AVERAGE;
 
     PIN_RESISTOR_1.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_1, 1);
@@ -247,14 +259,18 @@ int32_t voltage_from_analog_value(const int32_t value) {
 
 	set_new_resistor();
 
-	BC->value_avg_sum += voltage;
+	if (BC->num_average == 0) {
+		BC->value_avg = voltage;
+		BC->value_avg_tick = 0;
+	} else {
+		BC->value_avg_sum += voltage;
+		BC->value_avg_tick = (BC->value_avg_tick + 1) % BC->num_average;
 
-	if(BC->value_avg_tick % VOLTAGE_AVERAGE == 0) {
-		BC->value_avg = BC->value_avg_sum/VOLTAGE_AVERAGE;
-		BC->value_avg_sum = 0;
+		if(BC->value_avg_tick == 0) {
+			BC->value_avg = (BC->value_avg_sum + BC->num_average / 2) / BC->num_average;
+			BC->value_avg_sum = 0;
+		}
 	}
-
-	++BC->value_avg_tick;
 
 	return MIN(45000, BC->value_avg);
 }
@@ -310,6 +326,27 @@ void get_range(const ComType com, const GetRange *data) {
 	grr.range         = BC->range;
 
 	BA->send_blocking_with_timeout(&grr, sizeof(GetRangeReturn), com);
+}
+
+void set_averaging(const ComType com, const SetAveraging *data) {
+	if(BC->num_average != data->length) {
+		BC->value_avg_sum = 0;
+		BC->value_avg_tick = 0;
+
+		BC->num_average = data->length;
+	}
+
+	BA->com_return_setter(com, data);
+}
+
+void get_averaging(const ComType com, const GetAveraging *data) {
+	GetAveragingReturn gar;
+
+	gar.header        = data->header;
+	gar.header.length = sizeof(GetAveragingReturn);
+	gar.length        = BC->num_average;
+
+	BA->send_blocking_with_timeout(&gar, sizeof(GetAveragingReturn), com);
 }
 
 void tick(const uint8_t tick_type) {

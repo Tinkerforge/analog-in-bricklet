@@ -4,3 +4,6 @@
 2.0.0: Support for protocol 2.0
 2.0.1: Support manual measurement range selection
 2.0.2: Don't send threshold callback twice
+2.0.3: Fix jumps in average value calculation due to range switches
+       Add support for 3.3V range
+       Add support for changing the averaging length
