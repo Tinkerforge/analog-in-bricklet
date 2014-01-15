@@ -6,9 +6,9 @@ require_once('Tinkerforge/BrickletAnalogIn.php');
 use Tinkerforge\IPConnection;
 use Tinkerforge\BrickletAnalogIn;
 
-$host = 'localhost';
-$port = 4223;
-$uid = '7oj'; // Change to your UID
+const HOST = 'localhost';
+const PORT = 4223;
+const UID = '7oj'; // Change to your UID
 
 // Callback for voltage smaller than 5V
 function cb_reached($voltage)
@@ -17,9 +17,9 @@ function cb_reached($voltage)
 }
 
 $ipcon = new IPConnection(); // Create IP connection
-$ai = new BrickletAnalogIn($uid, $ipcon); // Create device object
+$ai = new BrickletAnalogIn(UID, $ipcon); // Create device object
 
-$ipcon->connect($host, $port); // Connect to brickd
+$ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
