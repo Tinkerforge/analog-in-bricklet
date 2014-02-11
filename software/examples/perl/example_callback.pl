@@ -7,8 +7,8 @@ use constant HOST => 'localhost';
 use constant PORT => 4223;
 use constant UID => 'abd2'; # Change to your UID
 
-my $ipcon = IPConnection->new(); # Create IP connection
-my $ai = BrickletAnalogIn->new(&UID, $ipcon); # Create device object
+my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
+my $ai = Tinkerforge::BrickletAnalogIn->new(&UID, $ipcon); # Create device object
 
 # Callback function for voltage callback (parameter has unit mV)
 sub cb_voltage
