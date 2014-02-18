@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickletAnalogIn = require('Tinkerforge/BrickletAnalogIn');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = 'abd2';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var ai = new BrickletAnalogIn(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var ai = new Tinkerforge.BrickletAnalogIn(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         // Set Period for voltage callback to 1s (1000ms)
         // Note: The callback is only called every second if the 
@@ -25,7 +24,7 @@ ipcon.on(IPConnection.CALLBACK_CONNECTED,
 );
 
 // Register voltage callback
-ai.on(BrickletAnalogIn.CALLBACK_VOLTAGE,
+ai.on(Tinkerforge.BrickletAnalogIn.CALLBACK_VOLTAGE,
     // Callback function for voltage callback (parameter has unit mV)
     function(voltage) {
         console.log('Voltage: '+voltage/1000+' V');
