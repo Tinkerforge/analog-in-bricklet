@@ -1,0 +1,31 @@
+function matlab_example_threshold
+    import com.tinkerforge.IPConnection;
+    import com.tinkerforge.BrickletAnalogIn;
+
+    HOST = 'localhost';
+    PORT = 4223;
+    UID = 'abd2'; % Change to your UID
+
+    ipcon = IPConnection(); % Create IP connection
+    ai = BrickletAnalogIn(UID, ipcon); % Create device object
+
+    ipcon.connect(HOST, PORT); % Connect to brickd
+    % Don't use device before ipcon is connected
+
+    % Set threshold callbacks with a debounce time of 10 seconds (10000ms)
+    ai.setDebouncePeriod(10000);
+
+    % Register threshold reached callback to function cb_reached
+    set(ai, 'VoltageReachedCallback', @(h, e)cb_reached(e.voltage));
+
+    % Configure threshold for "smaller than 5V" (unit is mV)
+    ai.setVoltageCallbackThreshold('<', 5*1000, 0);
+
+    input('\nPress any key to exit...\n', 's');
+    ipcon.disconnect();
+end
+
+% Callback for voltage greater than 5V
+function cb_reached(voltage_value)
+    fprintf('Voltage dropped below 5V: %g\n', voltage_value/1000);
+end
