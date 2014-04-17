@@ -17,13 +17,13 @@ function octave_example_callback
     ai.setVoltageCallbackPeriod(1000);
 
     % Register voltage callback to function cb_voltage
-    ai.addVoltageListener("cb_voltage");
+    ai.addVoltageCallback(@cb_voltage);
 
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
 
 % Callback function for voltage callback (parameter has unit mV)
-function cb_voltage(voltage_value)
-    fprintf('Voltage: %g V\n', voltage_value/1000);
+function cb_voltage(e)
+    fprintf("Voltage: %g V\n", e.voltage/1000.0);
 end

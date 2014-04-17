@@ -12,10 +12,9 @@ function octave_example_simple
     % Don't use device before ipcon is connected
 
     % Get current voltage (unit is mV)
-    voltage = ai.getVoltage()/1000;
+    voltage = ai.getVoltage();
+    fprintf("Voltage: %g V\n", voltage/1000.0);
 
-    fprintf('Voltage: %g V\n', voltage);
-
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end

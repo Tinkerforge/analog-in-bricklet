@@ -15,16 +15,16 @@ function octave_example_threshold
     ai.setDebouncePeriod(10000);
 
     % Register threshold reached callback to function cb_reached
-    ai.addVoltageReachedListener("cb_reached");
+    ai.addVoltageReachedCallback(@cb_reached);
 
     % Configure threshold for "smaller than 5V" (unit is mV)
     ai.setVoltageCallbackThreshold(ai.THRESHOLD_OPTION_SMALLER, 5*1000, 0);
     
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
 
 % Callback for voltage less than 5V
-function cb_reached(voltage_value)
-    fprintf("Voltage dropped below 5V: %g\n", voltage_value/1000);
+function cb_reached(e)
+    fprintf("Voltage dropped below 5V: %g\n", e.voltage/1000.0);
 end
