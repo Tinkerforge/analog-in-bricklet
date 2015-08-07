@@ -6,11 +6,11 @@ PORT = 4223
 UID = "XYZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.bricklet_analog_in import AnalogIn
+from tinkerforge.bricklet_analog_in import BrickletAnalogIn
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    ai = AnalogIn(UID, ipcon) # Create device object
+    ai = BrickletAnalogIn(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
