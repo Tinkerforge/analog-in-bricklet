@@ -31,7 +31,7 @@
 
 #define BRICKLET_FIRMWARE_VERSION_MAJOR 2
 #define BRICKLET_FIRMWARE_VERSION_MINOR 0
-#define BRICKLET_FIRMWARE_VERSION_REVISION 4
+#define BRICKLET_FIRMWARE_VERSION_REVISION 5
 
 #define BRICKLET_HARDWARE_VERSION_MAJOR 1
 #define BRICKLET_HARDWARE_VERSION_MINOR 0
@@ -89,12 +89,13 @@
 #define BRICKLET_HAS_SIMPLE_SENSOR
 #define BRICKLET_NO_OFFSET
 #define INVOCATION_IN_BRICKLET_CODE
+#define SIMPLE_VALUE_TYPE uint16_t
 #define NUM_SIMPLE_VALUES 2
 
 typedef struct {
 	int32_t value[NUM_SIMPLE_VALUES];
 	int32_t last_value[NUM_SIMPLE_VALUES];
-	int16_t value_avg;
+	uint16_t value_avg;
 	int32_t value_avg_sum;
 	uint32_t value_avg_tick;
 
