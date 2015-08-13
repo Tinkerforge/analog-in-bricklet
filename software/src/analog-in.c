@@ -100,13 +100,13 @@ void constructor(void) {
 
 	BC->num_average = VOLTAGE_AVERAGE;
 
-    PIN_RESISTOR_1.type = PIO_OUTPUT_1;
+    PIN_RESISTOR_1.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_1, 1);
 
     PIN_RESISTOR_2.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_2, 1);
 
-    PIN_RESISTOR_3.type = PIO_OUTPUT_1;
+    PIN_RESISTOR_3.type = PIO_OUTPUT_0;
     BA->PIO_Configure(&PIN_RESISTOR_3, 1);
 
     BC->current_resistor = 4;
@@ -230,19 +230,17 @@ int32_t analog_value_from_mc(const int32_t value) {
 		return BC->value[1];
 	}
 	uint16_t analog_value = BA->adc_channel_get_data(BS->adc_channel);
-	//update_resistor(analog_value);
+	update_resistor(analog_value);
 	return analog_value;
 }
 
 int32_t voltage_from_analog_value(const int32_t value) {
-	/*if(BC->new_resistor_set > 0) {
+	if(BC->new_resistor_set > 0) {
 		BC->new_resistor_set--;
 		return BC->value[0];
-	}*/
+	}
 
-//	int32_t voltage = (value * 3300*13)/MAX_ADC_VALUE;
-	int32_t voltage = (value * 3300)/MAX_ADC_VALUE;
-	/*
+	int32_t voltage = 0;
 	switch(BC->current_resistor) {
 		case 0:
 			voltage = VALUE_TO_VOLTAGE_0(value);
@@ -261,7 +259,7 @@ int32_t voltage_from_analog_value(const int32_t value) {
 			break;
 	}
 
-	set_new_resistor();*/
+	set_new_resistor();
 
 	if (BC->num_average == 0) {
 		BC->value_avg = voltage;
@@ -277,7 +275,6 @@ int32_t voltage_from_analog_value(const int32_t value) {
 	}
 
 	return MIN(45000, BC->value_avg);
-	//return voltage;
 }
 
 void set_range(const ComType com, const SetRange *data) {
