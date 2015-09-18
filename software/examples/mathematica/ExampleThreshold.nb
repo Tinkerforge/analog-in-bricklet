@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      6461,        151]
-NotebookOptionsPosition[      6185,        137]
-NotebookOutlinePosition[      6523,        152]
-CellTagsIndexPosition[      6480,        149]
+NotebookDataLength[      6391,        153]
+NotebookOptionsPosition[      6120,        139]
+NotebookOutlinePosition[      6453,        154]
+CellTagsIndexPosition[      6410,        151]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -33,63 +33,65 @@ Cell[BoxData[{
    3.600685674272073*^9, 3.600685674575115*^9}}],
 
 Cell[BoxData[{
- RowBox[{"host", "=", "\"\<localhost\>\""}], "\[IndentingNewLine]", 
- RowBox[{"port", "=", "4223"}], "\[IndentingNewLine]", 
+ RowBox[{"host", "=", "\"\<localhost\>\""}], "\n", 
+ RowBox[{"port", "=", "4223"}], "\n", 
  RowBox[{
-  RowBox[{"uid", "=", "\"\<amb\>\""}], 
-  RowBox[{"(*", " ", 
-   RowBox[{"Change", " ", "to", " ", "your", " ", "UID"}], " ", "*)"}], 
-  "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
+  RowBox[{"uid", "=", "\"\<XYZ\>\""}], 
+  RowBox[{"(*", 
+   RowBox[{"Change", " ", "to", " ", "your", " ", "UID"}], "*)"}], "\n", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
    "Create", " ", "IPConnection", " ", "and", " ", "device", " ", "object"}], 
-   " ", "*)"}]}], "\[IndentingNewLine]", 
+   "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{"ipcon", "=", 
   RowBox[{"NETNew", "[", "\"\<Tinkerforge.IPConnection\>\"", "]"}]}], "\n", 
  RowBox[{"ai", "=", 
   RowBox[{"NETNew", "[", 
    RowBox[{"\"\<Tinkerforge.BrickletAnalogIn\>\"", ",", "uid", ",", "ipcon"}],
-    "]"}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\n", 
  RowBox[{
   RowBox[{"ipcon", "@", 
    RowBox[{"Connect", "[", 
-    RowBox[{"host", ",", "port"}], "]"}]}], "\n", "\n", 
-  RowBox[{"(*", " ", 
+    RowBox[{"host", ",", "port"}], "]"}]}], "\n", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
    "Get", " ", "threshold", " ", "callbacks", " ", "with", " ", "a", " ", 
     "debounce", " ", "time", " ", "of", " ", "10", " ", "seconds", " ", 
     RowBox[{"(", 
-     RowBox[{"10000", "ms"}], ")"}]}], " ", "*)"}]}], "\n", 
+     RowBox[{"10000", "ms"}], ")"}]}], "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"ai", "@", 
-   RowBox[{"SetDebouncePeriod", "[", "10000", "]"}]}], "\[IndentingNewLine]", 
-  "\n", 
-  RowBox[{"(*", " ", 
+   RowBox[{"SetDebouncePeriod", "[", "10000", "]"}]}], "\n", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
-   "Callback", " ", "for", " ", "voltage", " ", "smaller", " ", "than", " ", 
-    "5", "V"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+   "Callback", " ", "function", " ", "for", " ", "voltage", " ", "reached", 
+    " ", "callback", " ", 
+    RowBox[{"(", 
+     RowBox[{"parameter", " ", "has", " ", "unit", " ", "mV"}], ")"}]}], 
+   "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"VoltageReachedCB", "[", 
    RowBox[{"sender_", ",", "voltage_"}], "]"}], ":=", "\[IndentingNewLine]", 
   RowBox[{"Print", "[", 
-   RowBox[{"\"\<Voltage dropped below 5V: \>\"", "<>", 
+   RowBox[{"\"\<Voltage: \>\"", "<>", 
     RowBox[{"ToString", "[", 
      RowBox[{"N", "[", 
       RowBox[{"Quantity", "[", 
-       RowBox[{"voltage", ",", "\"\<mV\>\""}], "]"}], "]"}], "]"}], "<>", 
-    "\"\<.\>\""}], "]"}]}], "\[IndentingNewLine]", 
+       RowBox[{"voltage", ",", "\"\<V/1000\>\""}], "]"}], "]"}], "]"}]}], 
+   "]"}]}], "\n", 
  RowBox[{
   RowBox[{"AddEventHandler", "[", 
    RowBox[{
     RowBox[{"ai", "@", "VoltageReached"}], ",", "VoltageReachedCB"}], "]"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
+  RowBox[{"(*", 
    RowBox[{
-   "Configure", " ", "threshold", " ", "for", " ", "\"\<smaller than 5V\>\"", 
-    " ", 
+   "Configure", " ", "threshold", " ", "for", " ", "voltage", " ", 
+    "\"\<smaller than 5 V\>\"", " ", 
     RowBox[{"(", 
-     RowBox[{"unit", " ", "is", " ", "mV"}], ")"}]}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
+     RowBox[{"unit", " ", "is", " ", "mV"}], ")"}]}], "*)"}]}], "\n", 
  RowBox[{"option", "=", 
   "Tinkerforge`BrickletAnalogIn`THRESHOLDUOPTIONUSMALLER"}], "\n", 
  RowBox[{
@@ -97,15 +99,15 @@ Cell[BoxData[{
    RowBox[{"SetVoltageCallbackThreshold", "[", 
     RowBox[{"option", ",", 
      RowBox[{"5", "*", "1000"}], ",", "0"}], "]"}]}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Input", "[", "\"\<Click OK to exit\>\"", "]"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{"Clean", " ", "up"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Clean", " ", "up"}], "*)"}]}], "\n", 
  RowBox[{"ipcon", "@", 
-  RowBox[{"Disconnect", "[", "]"}]}], "\[IndentingNewLine]", 
- RowBox[{"ReleaseNETObject", "[", "ai", "]"}], "\[IndentingNewLine]", 
+  RowBox[{"Disconnect", "[", "]"}]}], "\n", 
+ RowBox[{"ReleaseNETObject", "[", "ai", "]"}], "\n", 
  RowBox[{"ReleaseNETObject", "[", "ipcon", "]"}]}], "Input",
  CellChangeTimes->{{3.600075175574196*^9, 3.600075177574486*^9}, {
    3.600075518821967*^9, 3.60007554243471*^9}, {3.600075580562348*^9, 
@@ -133,11 +135,11 @@ Cell[BoxData[{
    3.600609340818445*^9, 3.600609544802136*^9}, {3.600609618298398*^9, 
    3.6006096224709063`*^9}, 3.600610394591187*^9, {3.6006813189185*^9, 
    3.600681472190928*^9}, {3.600681510568192*^9, 3.6006815109077997`*^9}, 
-   3.6006831479175043`*^9}]
+   3.6006831479175043`*^9, {3.651555121506626*^9, 3.651555122736486*^9}}]
 },
 WindowSize->{1521, 867},
-WindowMargins->{{242, Automatic}, {85, Automatic}},
-FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+WindowMargins->{{241, 156}, {84, Automatic}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -152,10 +154,9 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[557, 20, 676, 12, 55, "Input"],
-Cell[1236, 34, 4945, 101, 605, "Input"]
+Cell[1236, 34, 4880, 103, 605, "Input"]
 }
 ]
 *)
 
 (* End of internal cache information *)
-
