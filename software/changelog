@@ -1,29 +1,29 @@
-1.0.0:
+2012-02-15: 1.0.0 (1f27930)
 - Initial version
 
-1.1.0:
+2012-02-15: 1.1.0 (ac6aa22)
 - Add support for tick types
 
-1.1.1:
+2012-03-09: 1.1.1 (e196b4f)
 - Remove smallest resolution for now, to prevent high voltages if nothing is
   connected
 
-2.0.0:
+2013-01-17: 2.0.0 (2d68377)
 - Support for Protocol 2.0
 
-2.0.1:
+2013-02-22: 2.0.1 (707748c)
 - Support manual measurement range selection
 
-2.0.2:
+2013-05-15: 2.0.2 (ec3f411)
 - Don't send threshold callback twice
 
-2.0.3:
+2013-08-28: 2.0.3 (b329e35)
 - Fix jumps in average value calculation due to range switches
 - Add support for 3.3V range
 - Add support for changing the averaging length
 
-2.0.4:
+2013-12-19: 2.0.4 (1104c81)
 - Fix wrong length for GetDebounce packet (through brickletlib)
 
-2.0.5:
+2015-08-13: 2.0.5 (a2a8330)
 - Fix value range for threshold configuration
