@@ -5,7 +5,7 @@ class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "XYZ"; // Change to your UID
+	private static string UID = "XYZ"; // Change XYZ to the UID of your Analog In Bricklet
 
 	// Callback function for voltage callback (parameter has unit mV)
 	static void VoltageCB(BrickletAnalogIn sender, int voltage)
