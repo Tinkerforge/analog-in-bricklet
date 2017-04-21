@@ -10,7 +10,7 @@ tinkerforge call analog-in-bricklet $uid set-debounce-period 10000
 tinkerforge dispatch analog-in-bricklet $uid voltage-reached &
 
 # Configure threshold for voltage "smaller than 5 V" (unit is mV)
-tinkerforge call analog-in-bricklet $uid set-voltage-callback-threshold smaller 5000 0
+tinkerforge call analog-in-bricklet $uid set-voltage-callback-threshold threshold-option-smaller 5000 0
 
 echo "Press key to exit"; read dummy
 
