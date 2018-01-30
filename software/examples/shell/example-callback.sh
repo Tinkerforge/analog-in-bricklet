@@ -3,7 +3,7 @@
 
 uid=XYZ # Change XYZ to the UID of your Analog In Bricklet
 
-# Handle incoming voltage callbacks (parameter has unit mV)
+# Handle incoming voltage callbacks
 tinkerforge dispatch analog-in-bricklet $uid voltage &
 
 # Set period for voltage callback to 1s (1000ms)
